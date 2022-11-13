@@ -1,13 +1,13 @@
 {
     "name": "challenge_week6",
     "version": "1.0.0",
-    "description": "",
+    "description": "Challenge W5 - Game of life",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [],
-    "author": "",
+    "author": "Patricia Rufino",
     "license": "ISC",
     "prettier": {
         "singleQuote": true
