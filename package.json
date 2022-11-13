@@ -4,12 +4,17 @@
     "description": "Challenge W5 - Game of life",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "prepare": "husky install"
     },
     "keywords": [],
     "author": "Patricia Rufino",
     "license": "ISC",
     "prettier": {
         "singleQuote": true
+    },
+    "devDependencies": {
+        "eslint": "^8.27.0",
+        "husky": "^8.0.2"
     }
 }
