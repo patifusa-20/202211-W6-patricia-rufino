@@ -1,54 +1,47 @@
-let grid = [
-    [' ', 'o', ' '],
-    [' ', 'o', ' '],
-    [' ', 'o', ' '],
-];
-let newGrid = [[], [], []];
-const numRows = 3;
-const numCols = 3;
+let grid = [];
+let newGrid = [];
+const numRows = 30;
+const numCols = 30;
 let aliveCell = 'o';
 let deadCell = ' ';
 let countCells = 0;
 
-// const newGridStructure = () => {
-//     for (let ro = 0; ro < numRows; ro++) {
-//         newGrid.push([]);
-//     }
-//     return newGrid;
-// };
+export const generateRows = (arr) => {
+    for (let ro = 0; ro < numRows; ro++) {
+        arr.push([]);
+    }
+    return arr;
+};
 
 // // Obtener un valor random entre dos valores enteros
-// const randomValue = () => {
-//     let value = Math.floor(Math.random() * 2);
-//     return value;
-// };
+export const randomValue = () => {
+    let value = Math.floor(Math.random() * 2);
+    return value;
+};
 
 // // // Asignar valor inicial a cada célula
-// const valueCell = () => {
-//     let valueCell = randomValue();
-//     if (valueCell === 1) {
-//         valueCell = aliveCell;
-//     } else {
-//         valueCell = deadCell;
-//     }
-//     return valueCell;
-// };
+export const valueCell = () => {
+    let valueCell = randomValue();
+    if (valueCell === 1) {
+        valueCell = aliveCell;
+    } else {
+        valueCell = deadCell;
+    }
+    return valueCell;
+};
 
 // // // Pintar grid
-// const drawGrid = () => {
-//     for (let ro = 0; ro < numRows; ro++) {
-//         grid.push([]);
-//     }
-//     grid.forEach((element) => {
-//         for (let co = 0; co < numCols; co++) {
-//             element.push(valueCell());
-//         }
-//     });
-//     return grid;
-// };
+export const drawGrid = (arr) => {
+    arr.forEach((element) => {
+        for (let co = 0; co < numCols; co++) {
+            element.push(valueCell());
+        }
+    });
+    return arr;
+};
 
 // Ciclo de vida de las células
-const lifeCycleCell = (countCells, index, indexCell, currentGrid) => {
+export const lifeCycleCell = (countCells, index, indexCell, currentGrid) => {
     let currentCell = currentGrid[index][indexCell];
     // Estado de la célula
     if (currentCell === deadCell && countCells === 3) {
@@ -67,7 +60,7 @@ const lifeCycleCell = (countCells, index, indexCell, currentGrid) => {
     return newGrid;
 };
 
-const nextRow = (index, indexCell, currentGrid) => {
+export const nextRow = (index, indexCell, currentGrid) => {
     let nextRowPrevCell = currentGrid[index + 1][indexCell - 1];
     if (nextRowPrevCell === aliveCell) {
         countCells++;
@@ -82,7 +75,7 @@ const nextRow = (index, indexCell, currentGrid) => {
     }
 };
 
-const prevRow = (index, indexCell, currentGrid) => {
+export const prevRow = (index, indexCell, currentGrid) => {
     let prevRowPrevCell = currentGrid[index - 1][indexCell - 1];
     if (prevRowPrevCell === aliveCell) {
         countCells++;
@@ -98,10 +91,9 @@ const prevRow = (index, indexCell, currentGrid) => {
 };
 
 // Buscar células contiguas a cada una
-const siblingCells = (currentGrid) => {
+export const siblingCells = (currentGrid) => {
     let prevCell;
     let nextCell;
-
     for (let i = 0; i < currentGrid.length; i++) {
         for (let z = 0; z < currentGrid[i].length; z++) {
             prevCell = currentGrid[i][z - 1];
@@ -126,15 +118,16 @@ const siblingCells = (currentGrid) => {
         }
     }
     grid = newGrid;
-    newGrid = [[], [], []];
+    newGrid = [];
+    newGrid = generateRows(newGrid);
     console.table(grid);
     return grid;
 };
 
-const gameOfLife = () => {
-    //drawGrid();
-    //newGrid = newGridStructure();
-    //siblingCells(grid);
+export const gameOfLife = () => {
+    generateRows(grid);
+    generateRows(newGrid);
+    drawGrid(grid);
     setInterval(function () {
         siblingCells(grid);
     }, 1000);
