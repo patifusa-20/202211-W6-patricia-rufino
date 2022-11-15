@@ -1,6 +1,6 @@
 let grid = [];
-const numRows = 9;
-const numCols = 9;
+const numRows = 20;
+const numCols = 20;
 let aliveCell = 'o';
 let deadCell = ' ';
 let countCells = 0;
@@ -43,110 +43,66 @@ const lifeCycleCell = (countCells, index, indexCell) => {
         // La célula vive
         grid[index][indexCell] = aliveCell;
     }
-    if (
-        (currentCell === aliveCell && countCells < 2) ||
-        (currentCell === aliveCell && countCells > 3)
-    ) {
+    let isAlive = currentCell === aliveCell;
+    if ((isAlive && countCells < 2) || (isAlive && countCells > 3)) {
         // La célula muere
         grid[index][indexCell] = deadCell;
     }
     return grid;
 };
 
+const nextRow = (index, indexCell) => {
+    let nextRowPrevCell = grid[index + 1][indexCell - 1];
+    if (nextRowPrevCell === aliveCell) {
+        countCells++;
+    }
+    let nextRowOnCell = grid[index + 1][indexCell];
+    if (nextRowOnCell === aliveCell) {
+        countCells++;
+    }
+    let nextRowNextCell = grid[index + 1][indexCell + 1];
+    if (nextRowNextCell === aliveCell) {
+        countCells++;
+    }
+};
+
+const prevRow = (index, indexCell) => {
+    let prevRowPrevCell = grid[index - 1][indexCell - 1];
+    if (prevRowPrevCell === aliveCell) {
+        countCells++;
+    }
+    let prevRowOnCell = grid[index - 1][indexCell];
+    if (prevRowOnCell === aliveCell) {
+        countCells++;
+    }
+    let prevRownextCell = grid[index - 1][indexCell + 1];
+    if (prevRownextCell === aliveCell) {
+        countCells++;
+    }
+};
+
 // Buscar células contiguas a cada una
 const siblingCells = () => {
-    let currentCell;
-    let beforeCell;
-    let afterCell;
-
-    let beforeRowBeforeCell;
-    let beforeRowOnCell;
-    let beforeRowAfterCell;
-
-    let afterRowBeforeCell;
-    let afterRowOnCell;
-    let afterRowAfterCell;
-
+    let prevCell;
+    let nextCell;
     console.table(grid);
     for (let i = 0; i < grid.length; i++) {
         for (let z = 0; z < grid[i].length; z++) {
-            currentCell = grid[i][z];
+            prevCell = grid[i][z - 1];
+            if (prevCell === aliveCell) {
+                countCells++;
+            }
+            nextCell = grid[i][z + 1];
+            if (nextCell === aliveCell) {
+                countCells++;
+            }
             if (i === 0) {
-                beforeCell = grid[i][z - 1];
-                if (beforeCell === aliveCell) {
-                    countCells++;
-                }
-                afterCell = grid[i][z + 1];
-                if (afterCell === aliveCell) {
-                    countCells++;
-                }
-                afterRowBeforeCell = grid[i + 1][z - 1];
-                if (afterRowBeforeCell === aliveCell) {
-                    countCells++;
-                }
-                afterRowOnCell = grid[i + 1][z];
-                if (afterRowOnCell === aliveCell) {
-                    countCells++;
-                }
-                afterRowAfterCell = grid[i + 1][z + 1];
-                if (afterRowAfterCell === aliveCell) {
-                    countCells++;
-                }
+                nextRow(i, z);
             } else if (i === grid.length - 1) {
-                beforeCell = grid[i][z - 1];
-                if (beforeCell === aliveCell) {
-                    countCells++;
-                }
-                afterCell = grid[i][z + 1];
-                if (afterCell === aliveCell) {
-                    countCells++;
-                }
-                beforeRowBeforeCell = grid[i - 1][z - 1];
-                if (beforeRowBeforeCell === aliveCell) {
-                    countCells++;
-                }
-                beforeRowOnCell = grid[i - 1][z];
-                if (beforeRowOnCell === aliveCell) {
-                    countCells++;
-                }
-                beforeRowAfterCell = grid[i - 1][z + 1];
-                if (beforeRowAfterCell === aliveCell) {
-                    countCells++;
-                }
+                prevRow(i, z);
             } else {
-                beforeCell = grid[i][z - 1];
-                if (beforeCell === aliveCell) {
-                    countCells++;
-                }
-                afterCell = grid[i][z + 1];
-                if (afterCell === aliveCell) {
-                    countCells++;
-                }
-                beforeRowBeforeCell = grid[i - 1][z - 1];
-                if (beforeRowBeforeCell === aliveCell) {
-                    countCells++;
-                }
-                beforeRowOnCell = grid[i - 1][z];
-                if (beforeRowOnCell === aliveCell) {
-                    countCells++;
-                }
-                beforeRowAfterCell = grid[i - 1][z + 1];
-                if (beforeRowAfterCell === aliveCell) {
-                    countCells++;
-                }
-
-                afterRowBeforeCell = grid[i + 1][z - 1];
-                if (afterRowBeforeCell === aliveCell) {
-                    countCells++;
-                }
-                afterRowOnCell = grid[i + 1][z];
-                if (afterRowOnCell === aliveCell) {
-                    countCells++;
-                }
-                afterRowAfterCell = grid[i + 1][z + 1];
-                if (afterRowAfterCell === aliveCell) {
-                    countCells++;
-                }
+                prevRow(i, z);
+                nextRow(i, z);
             }
 
             lifeCycleCell(countCells, i, z);
@@ -156,10 +112,10 @@ const siblingCells = () => {
     return grid;
 };
 
-export const gameOfLife = () => {
+const gameOfLife = () => {
     drawGrid();
     //siblingCells();
-    setInterval(siblingCells, 100);
+    setInterval(siblingCells, 1000);
 };
 
 gameOfLife();
