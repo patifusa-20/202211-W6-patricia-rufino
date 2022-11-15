@@ -6,13 +6,13 @@ let deadCell = ' ';
 let countCells = 0;
 
 // Obtener un valor random entre dos valores enteros
-const randomValue = () => {
+export const randomValue = () => {
     let value = Math.floor(Math.random() * 2);
     return value;
 };
 
 // // Asignar valor inicial a cada célula
-const valueCell = () => {
+export const valueCell = () => {
     let valueCell = randomValue();
     if (valueCell === 1) {
         valueCell = aliveCell;
@@ -23,7 +23,7 @@ const valueCell = () => {
 };
 
 // // Pintar grid
-const drawGrid = () => {
+export const drawGrid = () => {
     for (let ro = 0; ro < numRows; ro++) {
         grid.push([]);
     }
@@ -36,7 +36,7 @@ const drawGrid = () => {
 };
 
 // Ciclo de vida de las células
-const lifeCycleCell = (countCells, index, indexCell) => {
+export const lifeCycleCell = (countCells, index, indexCell) => {
     let currentCell = grid[index][indexCell];
     // Estado de la célula
     if (currentCell === deadCell && countCells === 3) {
@@ -51,7 +51,7 @@ const lifeCycleCell = (countCells, index, indexCell) => {
     return grid;
 };
 
-const nextRow = (index, indexCell) => {
+export const nextRow = (index, indexCell) => {
     let nextRowPrevCell = grid[index + 1][indexCell - 1];
     if (nextRowPrevCell === aliveCell) {
         countCells++;
@@ -66,7 +66,7 @@ const nextRow = (index, indexCell) => {
     }
 };
 
-const prevRow = (index, indexCell) => {
+export const prevRow = (index, indexCell) => {
     let prevRowPrevCell = grid[index - 1][indexCell - 1];
     if (prevRowPrevCell === aliveCell) {
         countCells++;
@@ -82,7 +82,7 @@ const prevRow = (index, indexCell) => {
 };
 
 // Buscar células contiguas a cada una
-const siblingCells = () => {
+export const siblingCells = () => {
     let prevCell;
     let nextCell;
     console.table(grid);
@@ -112,10 +112,10 @@ const siblingCells = () => {
     return grid;
 };
 
-const gameOfLife = () => {
+export const gameOfLife = () => {
     drawGrid();
-    //siblingCells();
-    setInterval(siblingCells, 1000);
+    siblingCells();
+    //setInterval(siblingCells, 1000);
 };
 
 gameOfLife();
