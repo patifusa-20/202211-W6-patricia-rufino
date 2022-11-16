@@ -4,14 +4,33 @@
 
 ## Conway's Game of Life
 
-Crea un modulo con funciones que repliquen, sin utilizar ninguno de los métodos ya existentes en el prototipo, los siguientes métodos de array: **_length, push, pop, unshift, shift, some, every, find, filter, map, findIndex, includes, indexOf, reduce, join:_**
+Deberás de programar el Juego de la vida de Conway.
+
+![Logos of used technologies](/assets/gameOfLife.gif)
+
+## Reglas
+
+-   Una célula viva sigue las siguientes reglas:
+    -   Si tiene menos de 2 células contiguas vivas, muere por "soledad".
+    -   Si tiene más de 3 células contiguas vivas, muere por "sobrepoblación".
+    -   Si tiene 2 o 3 células contiguas vivas, sobrevive.
+-   Una célula muerta sigue la siguiente regla: Permanece muerta hasta que tiene exactamente 3 células contiguas vivas, momento en el que "nace".
 
 ## Requisitos
 
--   [x] Cualquiera de tus funciones puede usar las que ya hayas creado.
--   [x] Testea TODOS los métodos.
--   [x] Utiliza Github Actions Audit en el flujo de Github
--   [x] Configura SonarCloud asociado a tu repositorio, incluyendo el coverage de los tests
+-   [x] Debe de estar testeado con Jest.
+-   [x] Debe utilizarse SonarCloud para ir comprobando la calidad del código.
+-   [x] Se utilizará Husky para manejar los git-hooks, utilizando los archivos adjuntos.
+-   [x] Debe utilizarse GitActions el workflow adjunto.
+-   [x] Debe protegerse main en GitHub para que todo lo que se mergee pase por pull-request y que el workflow se cumpla.
+-   [x] En el caso de llegar a HTML/CSS. 4.1. Se utilizará BEM/SASS. 4.2. Se debe desplegar a Netlify.
+
+## Milestones
+
+-   [x] Programa funcional en JS. Las células se quedan pegadas la pared.
+-   [x] Programa 100% testeado.
+-   [ ] Añadir HTML/CSS.
+-   [ ] Modificar JS para que: a. Las células sigan avanzando al llegar a la pared y desaparezcan. b. Las células salgan por un lado de la cuadrícula y aparezcan por el otro.
 
 ## Resultado
 
