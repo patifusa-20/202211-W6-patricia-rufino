@@ -22,7 +22,8 @@ describe('Assign an status cell to random value', () => {
 
 // DragGrid Function
 describe('Drag a grid with cells', () => {
-    const result = typeof drawGrid();
+    const grid = [[], [], []];
+    const result = typeof drawGrid(grid);
     const expected = 'object';
     test(`The value cell function return ${result} and is expected ${expected}`, () => {
         expect(result).toEqual(expected);
