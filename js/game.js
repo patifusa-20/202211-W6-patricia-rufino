@@ -129,11 +129,12 @@ export const gameOfLife = () => {
     generateRows(newGrid);
     drawGrid(grid);
 
-    setInterval(function () {
-        siblingCells(grid);
-    }, 1000);
     // Se comenta para que no se ponga en bucle infinito el testing coverage de la Sonar Git Action
-    //siblingCells(grid);
+    // setInterval(function () {
+    //     siblingCells(grid);
+    // }, 1000);
+
+    siblingCells(grid);
 };
 
 gameOfLife();
