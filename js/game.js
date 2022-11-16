@@ -1,17 +1,25 @@
 let grid = [];
-const numRows = 20;
-const numCols = 20;
+let newGrid = [];
+const numRows = 30;
+const numCols = 30;
 let aliveCell = 'o';
 let deadCell = ' ';
 let countCells = 0;
 
-// Obtener un valor random entre dos valores enteros
+export const generateRows = (arr) => {
+    for (let ro = 0; ro < numRows; ro++) {
+        arr.push([]);
+    }
+    return arr;
+};
+
+// // Obtener un valor random entre dos valores enteros
 export const randomValue = () => {
     let value = Math.floor(Math.random() * 2);
     return value;
 };
 
-// // Asignar valor inicial a cada célula
+// // // Asignar valor inicial a cada célula
 export const valueCell = () => {
     let valueCell = randomValue();
     if (valueCell === 1) {
@@ -22,100 +30,109 @@ export const valueCell = () => {
     return valueCell;
 };
 
-// // Pintar grid
-export const drawGrid = () => {
-    for (let ro = 0; ro < numRows; ro++) {
-        grid.push([]);
-    }
-    grid.forEach((element) => {
+// // // Pintar grid
+export const drawGrid = (arr) => {
+    arr.forEach((element) => {
         for (let co = 0; co < numCols; co++) {
             element.push(valueCell());
         }
     });
-    return grid;
+    return arr;
 };
 
 // Ciclo de vida de las células
-export const lifeCycleCell = (countCells, index, indexCell) => {
-    let currentCell = grid[index][indexCell];
+export const lifeCycleCell = (countCells, index, indexCell, currentGrid) => {
+    let currentCell = currentGrid[index][indexCell];
     // Estado de la célula
     if (currentCell === deadCell && countCells === 3) {
         // La célula vive
-        grid[index][indexCell] = aliveCell;
+        newGrid[index][indexCell] = aliveCell;
+        return newGrid;
     }
     let isAlive = currentCell === aliveCell;
     if ((isAlive && countCells < 2) || (isAlive && countCells > 3)) {
         // La célula muere
-        grid[index][indexCell] = deadCell;
+        newGrid[index][indexCell] = deadCell;
+        return newGrid;
     }
-    return grid;
+    newGrid[index][indexCell] = currentCell;
+
+    return newGrid;
 };
 
-export const nextRow = (index, indexCell) => {
-    let nextRowPrevCell = grid[index + 1][indexCell - 1];
+export const nextRow = (index, indexCell, currentGrid) => {
+    let nextRowPrevCell = currentGrid[index + 1][indexCell - 1];
     if (nextRowPrevCell === aliveCell) {
         countCells++;
     }
-    let nextRowOnCell = grid[index + 1][indexCell];
+    let nextRowOnCell = currentGrid[index + 1][indexCell];
     if (nextRowOnCell === aliveCell) {
         countCells++;
     }
-    let nextRowNextCell = grid[index + 1][indexCell + 1];
+    let nextRowNextCell = currentGrid[index + 1][indexCell + 1];
     if (nextRowNextCell === aliveCell) {
         countCells++;
     }
 };
 
-export const prevRow = (index, indexCell) => {
-    let prevRowPrevCell = grid[index - 1][indexCell - 1];
+export const prevRow = (index, indexCell, currentGrid) => {
+    let prevRowPrevCell = currentGrid[index - 1][indexCell - 1];
     if (prevRowPrevCell === aliveCell) {
         countCells++;
     }
-    let prevRowOnCell = grid[index - 1][indexCell];
+    let prevRowOnCell = currentGrid[index - 1][indexCell];
     if (prevRowOnCell === aliveCell) {
         countCells++;
     }
-    let prevRownextCell = grid[index - 1][indexCell + 1];
+    let prevRownextCell = currentGrid[index - 1][indexCell + 1];
     if (prevRownextCell === aliveCell) {
         countCells++;
     }
 };
 
 // Buscar células contiguas a cada una
-export const siblingCells = () => {
+export const siblingCells = (currentGrid) => {
     let prevCell;
     let nextCell;
-    console.table(grid);
-    for (let i = 0; i < grid.length; i++) {
-        for (let z = 0; z < grid[i].length; z++) {
-            prevCell = grid[i][z - 1];
+    for (let i = 0; i < currentGrid.length; i++) {
+        for (let z = 0; z < currentGrid[i].length; z++) {
+            prevCell = currentGrid[i][z - 1];
             if (prevCell === aliveCell) {
                 countCells++;
             }
-            nextCell = grid[i][z + 1];
+            nextCell = currentGrid[i][z + 1];
             if (nextCell === aliveCell) {
                 countCells++;
             }
             if (i === 0) {
-                nextRow(i, z);
-            } else if (i === grid.length - 1) {
-                prevRow(i, z);
+                nextRow(i, z, currentGrid);
+            } else if (i === currentGrid.length - 1) {
+                prevRow(i, z, currentGrid);
             } else {
-                prevRow(i, z);
-                nextRow(i, z);
+                prevRow(i, z, currentGrid);
+                nextRow(i, z, currentGrid);
             }
 
-            lifeCycleCell(countCells, i, z);
+            lifeCycleCell(countCells, i, z, currentGrid);
             countCells = 0;
         }
     }
+    grid = newGrid;
+    newGrid = [];
+    newGrid = generateRows(newGrid);
+    console.table(grid);
     return grid;
 };
 
 export const gameOfLife = () => {
-    drawGrid();
-    siblingCells();
-    //setInterval(siblingCells, 1000);
+    generateRows(grid);
+    generateRows(newGrid);
+    drawGrid(grid);
+    // Se comenta para que no se ponga en bucle infinito el testing coverage de la Sonar Git Action
+    // setInterval(function () {
+    //     siblingCells(grid);
+    // }, 1000);
+    siblingCells(grid);
 };
 
 gameOfLife();
