@@ -1,7 +1,7 @@
 let grid = [];
 let newGrid = [];
-const numRows = 30;
-const numCols = 30;
+const numRows = 10;
+const numCols = 10;
 let aliveCell = 'o';
 let deadCell = ' ';
 let countCells = 0;
@@ -13,13 +13,13 @@ export const generateRows = (arr) => {
     return arr;
 };
 
-// // Obtener un valor random entre dos valores enteros
+// Obtener un valor random entre dos valores enteros
 export const randomValue = () => {
     let value = Math.floor(Math.random() * 2);
     return value;
 };
 
-// // // Asignar valor inicial a cada célula
+// Asignar valor inicial a cada célula
 export const valueCell = () => {
     let valueCell = randomValue();
     if (valueCell === 1) {
@@ -30,7 +30,7 @@ export const valueCell = () => {
     return valueCell;
 };
 
-// // // Pintar grid
+// Pintar grid
 export const drawGrid = (arr) => {
     arr.forEach((element) => {
         for (let co = 0; co < numCols; co++) {
@@ -128,11 +128,12 @@ export const gameOfLife = () => {
     generateRows(grid);
     generateRows(newGrid);
     drawGrid(grid);
+
+    setInterval(function () {
+        siblingCells(grid);
+    }, 1000);
     // Se comenta para que no se ponga en bucle infinito el testing coverage de la Sonar Git Action
-    // setInterval(function () {
-    //     siblingCells(grid);
-    // }, 1000);
-    siblingCells(grid);
+    //siblingCells(grid);
 };
 
 gameOfLife();

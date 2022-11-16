@@ -1,4 +1,4 @@
-import { randomValue, valueCell, drawGrid } from './game.js';
+import { generateRows, randomValue, valueCell, drawGrid } from './game.js';
 
 // RandomValue Function
 describe('Get a integer random number between 0 and 1', () => {
@@ -22,10 +22,18 @@ describe('Assign an status cell to random value', () => {
 
 // DragGrid Function
 describe('Drag a grid with cells', () => {
-    const grid = [[], [], []];
-    const result = typeof drawGrid(grid);
+    const grid = [];
+    generateRows(grid);
+    const addCells = drawGrid(grid);
+
+    const result = typeof addCells;
     const expected = 'object';
-    test(`The value cell function return ${result} and is expected ${expected}`, () => {
-        expect(result).toEqual(expected);
+    const result1 = addCells.length * addCells[0].length;
+    const expected1 = grid.length * grid[0].length;
+    test(`The type of value that return drawGrid function is ${result} and is expected ${expected}`, () => {
+        expect(result).toBe(expected);
+    });
+    test(`The total number of cells in the grid is ${result1} and is expected ${expected1}`, () => {
+        expect(result1).toEqual(expected1);
     });
 });
